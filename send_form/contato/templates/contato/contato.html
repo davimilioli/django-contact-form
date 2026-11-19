@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>send-form</title>
+</head>
+<body>
+  <h1>Formulário de contato</h1>
+
+  {% if enviado %}
+    <div>
+      <p><strong>Formulário validado!</strong> Nada foi salvo nem enviado.</p>
+      <p>Nome: {{ dados_recebidos.nome }}</p>
+      <p>E-mail: {{ dados_recebidos.email }}</p>
+      <p>Mensagem: {{ dados_recebidos.mensagem }}</p>
+    </div>
+  {% endif %}
+
+  <form method="post" action="{% url 'send_contact' %}" novalidate>
+    {% csrf_token %}
+
+    {% if form.non_field_errors %}
+      <div class="erro-geral">
+        {% for error in form.non_field_errors %}
+          <p>{{ error }}</p>
+        {% endfor %}
+      </div>
+    {% endif %}
+
+    {% for field in form %}
+      <div class="grupo-campo">
+        <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+        {{ field }}
+
+        {% if field.errors %}
+          {% for error in field.errors %}
+            <small class="erro-campo">{{ error }}</small>
+          {% endfor %}
+        {% endif %}
+      </div>
+    {% endfor %}
+
+    <button type="submit">Enviar</button>
+  </form>
+</body>
+</html>
