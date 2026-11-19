@@ -35,8 +35,8 @@ class ContatoForm(forms.Form):
         },
     )
 
-    def clean_name(self):
-        name = self.cleaned_data["nome"].strip()
-        if len(name < 2):
-            raise forms.ValidationError("O nome deve ter pelo menos 2 caracteres")
-        return name
+    def clean_nome(self):
+        nome = self.cleaned_data["nome"].strip()
+        if len(nome) < 2:
+            raise forms.ValidationError("O nome deve ter pelo menos 2 caracteres.")
+        return nome
